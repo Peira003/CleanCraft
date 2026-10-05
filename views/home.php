@@ -11,7 +11,7 @@
     <a href="home.php" class="logo">CleanCraft</a>
     <nav>
         <ul>
-            <li class="page"><a href="home.html">Strona główna</a></li>
+            <li class="page"><a href="home.php">Strona główna</a></li>
         </ul>
     </nav>
     <a href="login.php" class="login-btn">Zaloguj się</a>
