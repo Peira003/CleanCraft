@@ -4,23 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CleanCraft - Strona główna</title>
-    <link rel="stylesheet" href="../styles/login.css">
+    <link rel="stylesheet" href="../public/css/login.css">
 </head>
 <body>
     <header>
-        <a href="home.html" class="logo">CleanCraft</a>
+        <a href="home.php" class="logo">CleanCraft</a>
         <nav>
             <ul>
-                <li class="page"><a href="home.html">Strona główna</a></li>
+                <li class="page"><a href="home.php">Strona główna</a></li>
             </ul>
         </nav>
-        <a href="home.html" class="back-btn">Wróć</a>
+        <a href="home.php" class="back-btn">Wróć</a>
     </header>
 
     <main>
         <div id="container"> 
             <h1>Login</h1>
-            <form action="/controller/login.php" method="post">
+            <form action="/src/Controllers/AuthController.php" method="post">
                 <label for="email">Email:</label></br>
                 <input type="email" id="email" name="email" required></br></br>
                 <label for="password">Password:</label></br>
