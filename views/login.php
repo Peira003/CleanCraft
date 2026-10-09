@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CleanCraft - Strona główna</title>
-    <link rel="stylesheet" href="/public/css/login.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/login.css">
 </head>
 <body>
     <header>
-        <a href="home.php" class="logo">CleanCraft</a>
+        <a href="<?= BASE_URL ?>/" class="logo">CleanCraft</a>
         <nav>
             <ul>
-                <li class="page"><a href="home.php">Strona główna</a></li>
+                <li class="page"><a href="<?= BASE_URL ?>/">Strona główna</a></li>
             </ul>
         </nav>
-        <a href="home.php" class="back-btn">Wróć</a>
+        <a href="<?= BASE_URL ?>/" class="back-btn">Wróć</a>
     </header>
 
     <main>

@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>CleanCraft</title>
-    <link rel="stylesheet" href="/public/css/home.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/home.css">
 </head>
 <body>
 
 <header>
-    <a href="home.php" class="logo">CleanCraft</a>
+    <a href="<?= BASE_URL ?>/" class="logo">CleanCraft</a>
     <nav>
         <ul>
-            <li class="page"><a href="home.php">Strona główna</a></li>
+            <li class="page"><a href="<?= BASE_URL ?>/">Strona główna</a></li>
         </ul>
     </nav>
-    <a href="login.php" class="login-btn">Zaloguj się</a>
+    <a href="<?= BASE_URL ?>/login" class="login-btn">Zaloguj się</a>
 </header>
 
 <main>
@@ -26,7 +26,7 @@
         </p>
 
         <div class="cta-buttons">
-            <a href="login.php" class="btn-primary">Rozpocznij teraz</a>
+            <a href="login" class="btn-primary">Rozpocznij teraz</a>
             <a href="#featueres" class="btn-secondary">Dowiedz się więcej</a>
         </div>
     </section>

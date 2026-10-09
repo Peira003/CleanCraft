@@ -2,6 +2,8 @@
 
 session_start();
 
+define('BASE_URL', '/CleanCraft');
+
 require_once __DIR__ . '/../src/Router.php';
 require_once __DIR__ . '/../src/Controllers/HomeController.php';
 require_once __DIR__ . '/../src/Controllers/AuthController.php';

@@ -21,9 +21,10 @@ class Router
         $method = $_SERVER['REQUEST_METHOD'];
         $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-        $scriptName = $_SERVER['SCRIPT_NAME'];
-        if($scriptName !== '/' && str_starts_with($path, $scriptName)) {
-            $path = substr($path, strlen($scriptName));
+        $basePath = '/CleanCraft';
+
+        if(str_starts_with($path, $basePath)) {
+            $path = substr($path, strlen($basePath));
         }
 
         if($path === '' || $path === false) {
