@@ -1,16 +1,18 @@
 <?php
 
-session_start();
+namespace App\Controllers;
 
-require_once 'config/configDB.php';
 
-if(isset($_SESSION['logged_id'])){
-    header('Location: /views/index.php');
-} else {
-    header('Location: /views/login.php');
-    exit();
-}
+class AuthController
+{
+    public function showLoginForm(): void
+    {
+        require_once __DIR__ . '/../../views/login.php';
+    }
 
-if(isset($_POST['mail'])){
-
+    public function login(): void
+    {
+        $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+        $password = filter_input(INPUT_POST, 'password');
+    }
 }
