@@ -7,7 +7,7 @@ use PDO;
 use Config\Database;
 class User
 {
-    public function findByEmail(string $email): ?array
+    public static function findByEmail(string $email): ?array
     {
         $pdo = Database::getConnection();
 
@@ -16,9 +16,5 @@ class User
 
         $user = $stmt->fetch();
         return $user ?: null;
-    }
-
-    public function verifyPassword(string $password, string $hashPassword): bool {
-        return password_verify($password, $hashPassword);
     }
 }

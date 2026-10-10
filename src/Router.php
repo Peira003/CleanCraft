@@ -21,9 +21,9 @@ class Router
         $method = $_SERVER['REQUEST_METHOD'];
         $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-        $basePath = '/CleanCraft';
+        $basePath = BASE_URL;
 
-        if(str_starts_with($path, $basePath)) {
+        if (!empty($basePath) && str_starts_with($path, $basePath)) {
             $path = substr($path, strlen($basePath));
         }
 
@@ -31,8 +31,10 @@ class Router
             $path = '/';
         }
 
-        if(isset($this->routes[$method][$path])) {
-            [$controllerClass, $action] = $this->routes[$method][$path];
+        $handler = $this->routes[$method][$path] ?? null;
+
+        if ($handler) {
+            [$controllerClass, $action] = $handler;
             $controller = new $controllerClass();
             $controller->$action();
             return;

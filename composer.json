@@ -1,0 +1,20 @@
+{
+    "name": "peira/clean-craft",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/",
+            "Config\\": "config/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Peira",
+            "email": "konradp04@gmail.com"
+        }
+    ],
+    "scripts": {
+        "start": "php -S localhost:8000 -t public"
+    },
+    "require": {}
+}

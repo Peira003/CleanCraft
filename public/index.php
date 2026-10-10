@@ -2,7 +2,12 @@
 
 session_start();
 
-define('BASE_URL', '/CleanCraft');
+require_once __DIR__.'/../vendor/autoload.php';
+
+$scriptDir = dirname($_SERVER['SCRIPT_NAME']);
+$baseUrl = ($scriptDir === '/' || $scriptDir === '\\') ? '' : $scriptDir;
+
+define('BASE_URL', $baseUrl);
 
 require_once __DIR__ . '/../src/Router.php';
 require_once __DIR__ . '/../src/Controllers/HomeController.php';
@@ -18,6 +23,6 @@ $router->get('/', [HomeController::class, 'index']);
 $router->get('/login', [AuthController::class, 'showLoginForm']);
 $router->post('/login', [AuthController::class, 'login']);
 
-$router->get('/logout', [AuthController::class, 'logout']);
+$router->post('/logout', [AuthController::class, 'logout']);
 
 $router->dispatch();
