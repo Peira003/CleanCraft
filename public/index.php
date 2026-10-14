@@ -25,4 +25,7 @@ $router->post('/login', [AuthController::class, 'login']);
 
 $router->post('/logout', [AuthController::class, 'logout']);
 
+$router->get('/dashboard', [AuthController::class, 'showDashboard']);
+
+
 $router->dispatch();
