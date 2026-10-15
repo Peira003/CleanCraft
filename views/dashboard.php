@@ -46,9 +46,9 @@
                 </li>
 
                 <li class="uzytkownik">
-                    <div class="awatar">MW</div>
+                    <div class="awatar">MJ</div>
                     <div class="dane">
-                        <div class="imie">Martyna</div>
+                        <div class="imie">Marek</div>
                     </div>
                 </li>
             </ul>

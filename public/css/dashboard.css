@@ -10,8 +10,8 @@ header {
     align-items: center;
     padding: 10px 40px;
     background-color: #111111;
-    border-bottom: 1px solid #39FF14;
-    box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+    border-bottom: 1px solid #89CFF0;
+    box-shadow: 0 0 10px rgba(137, 207, 240, 0.3);
 }
 
 body {
@@ -35,19 +35,19 @@ main.dashboardLayout {
 
 .panelCard {
     background-color: #111111;
-    border: 1px solid #39FF14;
+    border: 1px solid #89CFF0;
     border-radius: 12px;
     padding: 30px;
-    box-shadow: 0 0 20px rgba(57, 255, 20, 0.25);
+    box-shadow: 0 0 20px rgba(137, 207, 240, 0.25);
     min-width: 0;
 }
 
 .panelCard h2 {
-    color: #39FF14;
+    color: #89CFF0;
     margin-bottom: 20px;
     text-align: center;
     text-transform: capitalize;
-    text-shadow: 0 0 8px rgba(57, 255, 20, 0.4);
+    text-shadow: 0 0 8px rgba(137, 207, 240, 0.4);
 }
 
 /* ---------- KALENDARZ ---------- */
@@ -78,19 +78,19 @@ main.dashboardLayout {
 }
 
 .dzien:hover {
-    border-color: #39FF14;
-    color: #39FF14;
-    box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+    border-color: #89CFF0;
+    color: #89CFF0;
+    box-shadow: 0 0 10px rgba(137, 207, 240, 0.3);
     transform: translateY(-2px);
 }
 
 .dzien.weekend { color: #888888; }
 
 .dzien.dzisiaj {
-    background-color: #39FF14;
-    border-color: #39FF14;
+    background-color: #89CFF0;
+    border-color: #89CFF0;
     color: #111111;
-    box-shadow: 0 0 12px #39FF14;
+    box-shadow: 0 0 12px #89CFF0;
 }
 
 .dzien.pusty { visibility: hidden; }
@@ -127,8 +127,8 @@ main.dashboardLayout {
     align-items: center;
     justify-content: center;
     background-color: transparent;
-    color: #39FF14;
-    border: 1px solid #39FF14;
+    color: #89CFF0;
+    border: 1px solid #89CFF0;
     border-radius: 8px;
     font-size: 24px;
     line-height: 1;
@@ -137,8 +137,8 @@ main.dashboardLayout {
 }
 
 .strzalka:hover {
-    background-color: rgba(57, 255, 20, 0.1);
-    box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+    background-color: rgba(137, 207, 240, 0.1);
+    box-shadow: 0 0 10px rgba(137, 207, 240, 0.3);
     transform: translateY(-2px);
 }
 
@@ -162,8 +162,8 @@ main.dashboardLayout {
 }
 
 .uzytkownik:hover {
-    border-color: #39FF14;
-    box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+    border-color: #89CFF0;
+    box-shadow: 0 0 10px rgba(137, 207, 240, 0.3);
     transform: translateY(-2px);
 }
 
@@ -175,7 +175,7 @@ main.dashboardLayout {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background-color: #39FF14;
+    background-color: #89CFF0;
     color: #111111;
     font-weight: bold;
 }
@@ -190,13 +190,13 @@ main.dashboardLayout {
 .rola {
     font-size: 12px;
     padding: 4px 12px;
-    border: 1px solid #39FF14;
+    border: 1px solid #89CFF0;
     border-radius: 999px;
-    color: #39FF14;
+    color: #89CFF0;
 }
 
 .rola.admin {
-    background-color: #39FF14;
+    background-color: #89CFF0;
     color: #111111;
     font-weight: bold;
 }
@@ -214,9 +214,9 @@ main.dashboardLayout {
 .logo {
     font-size: 24px;
     font-weight: bold;
-    color: #39FF14;
+    color: #89CFF0;
     text-decoration: none;
-    text-shadow: 0 0 5px #39FF14;
+    text-shadow: 0 0 5px #89CFF0;
 }
 
 nav ul{
@@ -233,14 +233,14 @@ nav a {
 }
 
 nav a:hover {
-    color: #39FF14;
+    color: #89CFF0;
 }
 
 .back-btn {
     width: 120px;
     text-decoration: none;
     color: #222222;
-    background-color: #39FF14;
+    background-color: #89CFF0;
     padding: 8px 18px;
     border-radius: 6px;
     font-weight: bold;
@@ -249,8 +249,8 @@ nav a:hover {
 }
 
 .back-btn:hover {
-    background-color: #2ce00d;
-    box-shadow: 0 0 10px #39FF14;
+    background-color: #78BEE0;
+    box-shadow: 0 0 10px #89CFF0;
 }
 
 footer {
