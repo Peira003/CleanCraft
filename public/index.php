@@ -5,27 +5,34 @@ session_start();
 require_once __DIR__.'/../vendor/autoload.php';
 
 $scriptDir = dirname($_SERVER['SCRIPT_NAME']);
-$baseUrl = ($scriptDir === '/' || $scriptDir === '\\') ? '' : $scriptDir;
+define('BASE_URL', ($scriptDir === '/' || $scriptDir === '\\') ? '' : $scriptDir);
 
-define('BASE_URL', $baseUrl);
-
-require_once __DIR__ . '/../src/Router.php';
-require_once __DIR__ . '/../src/Controllers/HomeController.php';
-require_once __DIR__ . '/../src/Controllers/AuthController.php';
 
 use App\Router;
 use App\Controllers\HomeController;
 use App\Controllers\AuthController;
+use App\Controllers\PlanController;
+
 $router = new Router();
 
 $router->get('/', [HomeController::class, 'index']);
 
 $router->get('/login', [AuthController::class, 'showLoginForm']);
 $router->post('/login', [AuthController::class, 'login']);
-
+$router->get('/register', [AuthController::class, 'showRegistrationForm']);
+$router->post('/register', [AuthController::class, 'register']);
 $router->post('/logout', [AuthController::class, 'logout']);
 
-$router->get('/dashboard', [AuthController::class, 'showDashboard']);
+$router->get('/plans', [PlanController::class, 'chooser']);
+$router->get('/plans/create', [PlanController::class, 'showCreate']);
+$router->post('/plans/create', [PlanController::class, 'create']);
+$router->get('/plans/join', [PlanController::class, 'showJoin']);
+$router->post('/plans/join', [PlanController::class, 'join']);
+$router->get('/dolacz/{kod}', [PlanController::class, 'joinByLink']);
+$router->get('/plan/{id}', [PlanController::class, 'show']);
+
+
+//$router->get('/dashboard', [AuthController::class, 'showDashboard']);
 
 
 $router->dispatch();

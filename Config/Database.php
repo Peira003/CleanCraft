@@ -11,7 +11,7 @@ class Database {
     public static function getConnection(): PDO
     {
         if(self::$instance == null) {
-            $config = require __DIR__ . '/database.php';
+            $config = require __DIR__ . '/database.config.php';
 
             try {
                 self::$instance = new PDO(

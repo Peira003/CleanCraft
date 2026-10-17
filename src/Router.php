@@ -27,17 +27,19 @@ class Router
             $path = substr($path, strlen($basePath));
         }
 
-        if($path === '' || $path === false) {
-            $path = '/';
-        }
+        $path = rtrim($path ?: '/', '/') ?: '/';
 
-        $handler = $this->routes[$method][$path] ?? null;
 
-        if ($handler) {
-            [$controllerClass, $action] = $handler;
-            $controller = new $controllerClass();
-            $controller->$action();
-            return;
+        foreach ($this->routes[$method] ?? [] as $route => $handler) {
+            $pattern = '#^' . preg_replace('#\{(\w+)\}#', '(?P<$1>[^/]+)', $route) . '$#';
+
+            if (preg_match($pattern, $path, $matches)) {
+                $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
+
+                [$controllerClass, $action] = $handler;
+                (new $controllerClass())->$action(...array_values($params));
+                return;
+            }
         }
 
         http_response_code(404);
