@@ -1,2 +1,17 @@
 # dane dostępowe do bazy
-/Co
+/Config/database.config.php
+
+# zależności Composera
+/vendor/
+
+# ustawienia IDE
+/.idea/
+/.vscode/
+
+# logi i pliki tymczasowe
+*.log
+.env
+
+# pliki systemowe
+.DS_Store
+Thumbs.db
