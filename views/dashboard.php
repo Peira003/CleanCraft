@@ -3,19 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?= htmlspecialchars($plan['name']) ?></title>
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/base.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/dashboard.css">
-    <title>Panel</title>
 </head>
 <body>
-    <header>
-        <a href="<?= BASE_URL ?>/" class="logo">CleanCraft</a>
-        <nav>
-            <ul>
-                <li class="page"><a href="<?= BASE_URL ?>/">Strona główna</a></li>
-            </ul>
-        </nav>
-        <a href="<?= BASE_URL ?>/" class="back-btn">Wróć</a>
-    </header>
+    <?php require __DIR__ . '/partials/header.php'; ?>
 
     <main class="dashboardLayout">
         <section class="panelCard">
@@ -28,7 +21,7 @@
         </section>
 
         <section class="panelCard">
-            <h2>Użytkownicy</h2>
+            <h2><?php htmlspecialchars($plan['name']) ?></h2>
 
             <ul class="lista">
                 <li class="uzytkownik">
@@ -56,13 +49,8 @@
     </main>
 
 
-    <footer>
-        <p>&copy; 2026 Stworzone przez Peira. Wszystkie prawa zastrzeżone.</p>
-    </footer>
-<!---->
-<!--    <script>-->
-<!--        const wydarzenia = --><?php //= json_encode($wydarzenia,JSON_UNESCAPED_UNICODE) ?>
-<!--   </script>-->
+    <?php require __DIR__ . '/partials/footer.php'; ?>
+
     <script src="<?= BASE_URL ?>/js/kalendarz.js"></script>
 </body>
 </html>
