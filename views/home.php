@@ -7,15 +7,8 @@
 </head>
 <body>
 
-<header>
-    <a href="<?= BASE_URL ?>/" class="logo">CleanCraft</a>
-    <nav>
-        <ul>
-            <li class="page"><a href="<?= BASE_URL ?>/">Strona główna</a></li>
-        </ul>
-    </nav>
-    <a href="<?= BASE_URL ?>/login" class="login-btn">Zaloguj się</a>
-</header>
+<?php require __DIR__ . '/partials/header.php'; ?>
+
 
 <main>
     <section class="hero-card">
@@ -32,8 +25,6 @@
     </section>
 </main>
 
-<footer>
-    <p>&copy; 2026 Stworzone przez Peira. Wszystkie prawa zastrzeżone.</p>
-</footer>
+<?php require __DIR__ . '/partials/footer.php'; ?>
 </body>
 </html>

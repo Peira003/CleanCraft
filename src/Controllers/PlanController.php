@@ -8,18 +8,31 @@ class PlanController
 {
     private function requireLogin(): int
     {
-        if (empty($_SESSION['user_id'])) {
+        if (empty($_SESSION['userId'])) {
             header('Location: ' . BASE_URL . '/login');
-            exit();
+            exit;
         }
-        return (int) $_SESSION['user_id'];
+        return (int) $_SESSION['userId'];
+    }
+
+    private function redirect(string $path): never
+    {
+        header('Location: ' . BASE_URL . $path);
+        exit;
     }
 
     public function chooser(): void
     {
         $userId = $this->requireLogin();
         $plany = Plan::forUser($userId);
+
         require __DIR__ . '/../../views/plans/chooser.php';
+    }
+
+    public function showCreate(): void
+    {
+        $this->requireLogin();
+        require __DIR__ . '/../../views/plans/create.php';
     }
 
     public function create(): void
@@ -28,43 +41,46 @@ class PlanController
         $name = trim($_POST['name'] ?? '');
 
         if ($name === '' || mb_strlen($name) > 120) {
-            header('Location: ' . BASE_URL . '/plans/create');
-            exit();
+            $_SESSION['form_error'] = 'Podaj nazwę plany (maks. 120 znaków).';
+            $this->redirect('/plans/create');
         }
 
         $planId = Plan::create($name, $userId);
-        header('Location: ' . BASE_URL . '/plans/' . $planId);
-        exit();
+        $this->redirect('/plans/' . $planId);
+    }
+
+    public function showJoin(): void
+    {
+        $this->requireLogin();
+        require __DIR__ . '/../../views/plans/join.php';
     }
 
     public function join(): void
     {
         $userId = $this->requireLogin();
-        $this->dolacz($userId, $_POST['kod'] ?? '');
+        $this->dolacz($userId, $_POST['code'] ?? '');
     }
 
-    public function joinByLink(string $kod): void
+    public function joinByLink(string $code): void
     {
-        if (empty($_SESSION['user_id'])) {
-            $_SESSION['pending_join_code'] = $kod;
-            header('Location: ' . BASE_URL . '/login');
-            exit();
+        if (empty($_SESSION['userId'])) {
+            $_SESSION['pending_join_code'] = $code;
+            $this->redirect('/login');
         }
-        $this->dolacz((int) $_SESSION['user_id'], $kod);
+        $this->joinWithCode((int) $_SESSION['userId'], $code);
     }
 
-    private function dolacz(int $userId, string $kod): void
+    private function joinWithCode(int $userId, string $code): never
     {
-        $plan = Plan::findByCode($kod);
+        $plan = Plan::findByCode($code);
 
         if (!$plan) {
-            header('Location: ' . BASE_URL . '/plans/join');
-            exit();
+            $_SESSION['form_error'] = 'Nie znaleziono planu o takim kodzie';
+            $this->redirect('/plans/join');
         }
 
         Plan::addMember((int) $plan['id'], $userId);
-        header('Location: ' . BASE_URL . '/plans/' . $plan['id']);
-        exit();
+        $this->redirect('/plans/' . $plan['id']);
     }
 
     public function show(string $id): void
@@ -74,13 +90,13 @@ class PlanController
 
         $members = Plan::members($planId);
         if(!in_array($userId, array_column($members, 'id'), true)){
-            http_response_code(403);
-            echo "Brak dostępu do tego planu.";
-            return;
+            $this->redirect('/plans');
         }
 
+        $plan = Plan::findById($planId);
         $users = $members;
         $isOwner = Plan::isOwner($planId, $userId);
+
         require __DIR__ . '/../../views/dashboard.php';
     }
 
