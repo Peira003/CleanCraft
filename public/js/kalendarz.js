@@ -19,7 +19,7 @@ function format(rok, miesiac, dzien) {
 }
 
 function dodajKafelek(numer, klasy = [], data = null) {
-    const kafelek = el(('dzien' + klasa.join(' ')).trim(), numer);
+    const kafelek = el(('dzien ' + klasy.join(' ')).trim(), numer);
     if (data) kafelek.dataset.data = data;
     siatka.appendChild(kafelek);
 }

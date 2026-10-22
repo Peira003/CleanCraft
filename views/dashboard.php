@@ -5,8 +5,6 @@
  * @var bool $isOwner
  */
 
-
-
 $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
 $inviteLink = $scheme . '://' . $_SERVER['HTTP_HOST'] . BASE_URL . '/dolacz/' . $plan['invite_code'];
 ?>
@@ -35,7 +33,7 @@ $inviteLink = $scheme . '://' . $_SERVER['HTTP_HOST'] . BASE_URL . '/dolacz/' . 
         </section>
 
         <section class="panelCard">
-            <h2><?php htmlspecialchars($plan['name']) ?></h2>
+            <h2><?= htmlspecialchars($plan['name']) ?></h2>
 
             <?php if ($isOwner): ?>
                 <div class="invite">
@@ -46,13 +44,13 @@ $inviteLink = $scheme . '://' . $_SERVER['HTTP_HOST'] . BASE_URL . '/dolacz/' . 
 
             <ul class="lsita">
                 <?php foreach ($users as $u): ?>
-                    <li class="uzytkownicy">
-                        <div class="awater"><?= htmlspecialchars(mb_strtoupper(mb_substr($u['name'], 0, 1))) ?></div>
+                    <li class="uzytkownik">
+                        <div class="awatar"><?= htmlspecialchars(mb_strtoupper(mb_substr($u['name'], 0, 1))) ?></div>
                         <div class="dane">
                             <div class="imie"><?= htmlspecialchars($u['name'])?></div>
                         </div>
                         <?php if($u['role'] === 'owner'): ?>
-                            <span class="rola-admina">Właściciel</span>
+                            <span class="rola admin">Właściciel</span>
                         <?php endif; ?>
                     </li>
                 <?php endforeach; ?>

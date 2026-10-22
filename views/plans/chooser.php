@@ -17,7 +17,7 @@
     <?php require __DIR__ . '/../partials/header.php'; ?>
 
     <main>
-        <div class="form-card wide"></div>
+        <div class="form-card wide">
             <?php if(empty($plany)): ?>
                 <h1>Witaj w CleanCraft!</h1>
                 <p class="chooser-info">
@@ -28,7 +28,7 @@
                 <ul class="plan-list">
                     <?php foreach($plany as $plan): ?>
                         <li>
-                            <a href="<?= BASE_URL ?>/plany/<?= (int) $plan['id'] ?>">
+                            <a href="<?= BASE_URL ?>/plan/<?= (int) $plan['id'] ?>">
                                 <span><?= htmlspecialchars($plan['name']) ?></span>
                                 <span class="badge" <?= $plan['role'] === 'owner' ? 'owner' : '' ?> >
                                     <?= $plan['role'] === 'owner' ? 'Właściciel' : 'Członek' ?>
@@ -43,6 +43,7 @@
                 <a href="<?= BASE_URL ?>/plans/create" class="btn-primary">Utwórz plan</a>
                 <a href="<?= BASE_URL ?>/plans/join" class="btn-secondary">Dołącz do planu</a>
             </div>
+        </div>
     </main>
 
     <?php require __DIR__ . '/../partials/footer.php'; ?>

@@ -9,7 +9,7 @@ unset($_SESSION['form_error']);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dołącz do planu</title>
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/base.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/css/form.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/forms.css">
 </head>
 <body>
     <?php require __DIR__ . '/../partials/header.php' ?>

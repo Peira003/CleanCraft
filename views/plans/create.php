@@ -9,7 +9,7 @@ unset($_SESSION['form_error']);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Utwórz plan</title>
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/base.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/css/form.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/forms.css">
 </head>
 <body>
     <?php require __DIR__ . '/../partials/header.php' ?>
@@ -24,7 +24,7 @@ unset($_SESSION['form_error']);
 
             <form method="post" action="<?= BASE_URL ?>/plans/create">
                 <label for="name">Nazwa planu</label>
-                <input type="text" id="name" maxlength="120" placeholder="np. Mieszkanie na Kwiatowej" required>
+                <input type="text" id="name" name="name" maxlength="120" placeholder="np. Mieszkanie na Kwiatowej" required>
                 <input type="submit" value="Utwórz">
             </form>
 
