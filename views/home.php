@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>CleanCraft</title>
+    <link rel="stylesheet" href="<?= BASE_URL ?>/css/base.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/home.css">
 </head>
 <body>

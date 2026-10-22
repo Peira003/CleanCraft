@@ -1,3 +1,17 @@
+<?php
+/**
+ * @var array $plan
+ * @var array $users
+ * @var bool $isOwner
+ */
+
+
+
+$scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+$inviteLink = $scheme . '://' . $_SERVER['HTTP_HOST'] . BASE_URL . '/dolacz/' . $plan['invite_code'];
+?>
+
+
 <!doctype html>
 <html lang="pl">
 <head>
@@ -23,27 +37,25 @@
         <section class="panelCard">
             <h2><?php htmlspecialchars($plan['name']) ?></h2>
 
-            <ul class="lista">
-                <li class="uzytkownik">
-                    <div class="awatar">AK</div>
-                    <div class="dane">
-                        <div class="imie">Anna</div>
-                    </div>
-                </li>
+            <?php if ($isOwner): ?>
+                <div class="invite">
+                    <p>Kod zaproszenia: <strong><?= htmlspecialchars($plan['invite_code']) ?></strong></p>
+                    <p>Link: <?= htmlspecialchars($inviteLink) ?></p>
+                </div>
+            <?php endif; ?>
 
-                <li class="uzytkownik">
-                    <div class="awatar">JN</div>
-                    <div class="dane">
-                        <div class="imie">Jan</div>
-                    </div>
-                </li>
-
-                <li class="uzytkownik">
-                    <div class="awatar">MJ</div>
-                    <div class="dane">
-                        <div class="imie">Marek</div>
-                    </div>
-                </li>
+            <ul class="lsita">
+                <?php foreach ($users as $u): ?>
+                    <li class="uzytkownicy">
+                        <div class="awater"><?= htmlspecialchars(mb_strtoupper(mb_substr($u['name'], 0, 1))) ?></div>
+                        <div class="dane">
+                            <div class="imie"><?= htmlspecialchars($u['name'])?></div>
+                        </div>
+                        <?php if($u['role'] === 'owner'): ?>
+                            <span class="rola-admina">Właściciel</span>
+                        <?php endif; ?>
+                    </li>
+                <?php endforeach; ?>
             </ul>
         </section>
     </main>

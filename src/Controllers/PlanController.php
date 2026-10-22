@@ -41,12 +41,12 @@ class PlanController
         $name = trim($_POST['name'] ?? '');
 
         if ($name === '' || mb_strlen($name) > 120) {
-            $_SESSION['form_error'] = 'Podaj nazwę plany (maks. 120 znaków).';
+            $_SESSION['form_error'] = 'Podaj nazwę planu (maks. 120 znaków).';
             $this->redirect('/plans/create');
         }
 
         $planId = Plan::create($name, $userId);
-        $this->redirect('/plans/' . $planId);
+        $this->redirect('/plan/' . $planId);
     }
 
     public function showJoin(): void
@@ -58,7 +58,7 @@ class PlanController
     public function join(): void
     {
         $userId = $this->requireLogin();
-        $this->dolacz($userId, $_POST['code'] ?? '');
+        $this->joinWithCode($userId, $_POST['code'] ?? '');
     }
 
     public function joinByLink(string $code): void
@@ -80,7 +80,7 @@ class PlanController
         }
 
         Plan::addMember((int) $plan['id'], $userId);
-        $this->redirect('/plans/' . $plan['id']);
+        $this->redirect('/plan/' . $plan['id']);
     }
 
     public function show(string $id): void
