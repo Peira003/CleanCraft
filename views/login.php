@@ -13,7 +13,10 @@
     <link rel="stylesheet" href="<?= BASE_URL ?>/css/forms.css">
 </head>
 <body>
-    <?php require __DIR__ . '/partials/header.php'; ?>
+    <?php
+        $showBackButtonLogin = true;
+        require __DIR__ . '/partials/header.php';
+    ?>
 
     <main>
         <div class="form-card">

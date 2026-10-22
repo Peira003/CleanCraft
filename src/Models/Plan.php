@@ -71,7 +71,7 @@ class Plan
     public static function forUser(int $userId): array
     {
         $pdo = Database::getConnection();
-        $stmt = $pdo->prepare("SELECT p.*, pm.role FORM plans p JOIN plan_members pm ON pm.plan_id = p.id WHERE pm.user_id = :user ORDER BY p.name");
+        $stmt = $pdo->prepare("SELECT p.*, pm.role FROM plans p JOIN plan_members pm ON pm.plan_id = p.id WHERE pm.user_id = :user ORDER BY p.name");
         $stmt->execute(['user' => $userId]);
 
         return $stmt->fetchAll();

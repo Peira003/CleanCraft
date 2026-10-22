@@ -20,6 +20,12 @@
 }
 
 .form-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-card label {
     font-size: 14px;
     font-weight: bold;
     color: #89CFF0;
