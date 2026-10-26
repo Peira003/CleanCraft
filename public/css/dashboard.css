@@ -10,20 +10,14 @@ main.dashboardLayout {
 }
 
 .panelCard {
-    background-color: #111111;
-    border: 1px solid #89CFF0;
-    border-radius: 12px;
     padding: 30px;
-    box-shadow: 0 0 20px rgba(137, 207, 240, 0.25);
     min-width: 0;
 }
 
 .panelCard h2 {
-    color: #89CFF0;
     margin-bottom: 20px;
     text-align: center;
     text-transform: capitalize;
-    text-shadow: 0 0 8px rgba(137, 207, 240, 0.4);
 }
 
 /* ---------- KALENDARZ ---------- */
@@ -34,52 +28,48 @@ main.dashboardLayout {
 }
 
 .nazwa-dnia {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--muted);
     text-align: center;
-    font-weight: bold;
-    font-size: 14px;
-    color: #888888;
     padding-bottom: 4px;
 }
 
 .dzien {
+    background: var(--surface-2);
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
     aspect-ratio: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #222222;
-    border: 1px solid #333333;
-    border-radius: 8px;
-    font-weight: bold;
     transition: all 0.25s;
 }
 
 .dzien:hover {
-    border-color: #89CFF0;
-    color: #89CFF0;
-    box-shadow: 0 0 10px rgba(137, 207, 240, 0.3);
-    transform: translateY(-2px);
+    border-color: var(--accent);
+    color: var(--text);
 }
 
-.dzien.weekend { color: #888888; }
+.dzien.weekend { color: var(--muted); }
 
 .dzien.dzisiaj {
-    background-color: #89CFF0;
-    border-color: #89CFF0;
-    color: #111111;
-    box-shadow: 0 0 12px #89CFF0;
+    background: var(--accent);
+    color: #0f1419;
+    font-weight: 700;
 }
 
 .dzien.inny {
-    color: #555555;
-    background-color: #1a1a1a;
-    border-color: #2a2a2a;
+    background: transparent;
+    color: #3d4856;
     font-weight: normal;
 }
 
 .dzien.inny:hover {
-    color: #888888;
-    border-color: #444444;
-    box-shadow: none;
+    border-color: transparent;
 }
 
 .kalendarzNaglowek {
@@ -101,9 +91,9 @@ main.dashboardLayout {
     align-items: center;
     justify-content: center;
     background-color: transparent;
-    color: #89CFF0;
-    border: 1px solid #89CFF0;
-    border-radius: 8px;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
     font-size: 24px;
     line-height: 1;
     cursor: pointer;
@@ -111,9 +101,8 @@ main.dashboardLayout {
 }
 
 .strzalka:hover {
-    background-color: rgba(137, 207, 240, 0.1);
-    box-shadow: 0 0 10px rgba(137, 207, 240, 0.3);
-    transform: translateY(-2px);
+    border-color: var(--accent);
+    background: var(--accent-soft);
 }
 
 /* ---------- LISTA UŻYTKOWNIKÓW ---------- */
@@ -125,21 +114,18 @@ main.dashboardLayout {
 }
 
 .uzytkownik {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
     gap: 14px;
-    background-color: #222222;
-    border: 1px solid #333333;
-    border-radius: 8px;
     padding: 10px 14px;
-    margin-bottom: 3px;
     transition: all 0.25s;
 }
 
 .uzytkownik:hover {
-    border-color: #89CFF0;
-    box-shadow: 0 0 10px rgba(137, 207, 240, 0.3);
-    transform: translateY(-2px);
+    border-color: var(--accent);
 }
 
 .awatar {
@@ -150,43 +136,44 @@ main.dashboardLayout {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background-color: #89CFF0;
-    color: #111111;
+    background: var(--accent-soft);
+    color: var(--accent);
     font-weight: bold;
 }
 
 .dane { flex: 1; min-width: 0; }
 
 .imie {
-    color: white;
+    color: var(--text);
     font-weight: bold;
 }
 
 .rola {
     font-size: 12px;
     padding: 4px 12px;
-    border: 1px solid #89CFF0;
+    border: none;
+    background: var(--accent-soft);
     border-radius: 999px;
-    color: #89CFF0;
+    color: var(--accent);
 }
 
 .rola.admin {
-    background-color: #89CFF0;
-    color: #111111;
+    background: var(--accent);
+    color: #0f1419;
     font-weight: bold;
 }
 
-.brak-danych { text-align: center; color: #888888; }
+.brak-danych { text-align: center; color: var(--muted); }
 
 /* Ramka z kodem zaproszenia */
 
 .invite {
-    background-color: #222222;
-    border: 1px dashed #89CFF0;
-    border-radius: 8px;
+    background: var(--surface-2);
+    border: 1px dashed var(--accent);
+    border-radius: var(--radius-sm);
     padding: 12px 14px;
     margin-bottom: 20px;
-    color: #dddddd;
+    color: var(--muted);
     font-size: 14px;
     word-break: break-all;
 }
@@ -196,7 +183,7 @@ main.dashboardLayout {
 }
 
 .invite strong {
-    color: #89CFF0;
+    color: var(--accent);
     letter-spacing: 2px;
 }
 
