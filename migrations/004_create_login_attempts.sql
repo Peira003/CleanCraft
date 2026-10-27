@@ -1,0 +1,7 @@
+CREATE TABLE login_attempts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ip VARCHAR(45) NOT NULL,
+    email VARCHAR(35) NOT NULL DEFAULT '',
+    attempted_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_ip_time (ip, attempted_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

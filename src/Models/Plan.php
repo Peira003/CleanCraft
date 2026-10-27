@@ -98,4 +98,11 @@ class Plan
 
         return $stmt->fetchAll();
     }
+
+    public static function removeMember(int $planId, int $userId): void
+    {
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare("DELETE FROM plan_members WHERE plan_id = :plan AND user_id = :user AND role != 'owner'");
+        $stmt->execute(['plan' => $planId, 'user' => $userId]);
+    }
 }

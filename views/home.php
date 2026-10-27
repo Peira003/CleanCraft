@@ -8,6 +8,12 @@
 </head>
 <body>
 
+<div class="bg" aria-hidden="true">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <div class="bubbles" id="bubbles"></div>
+</div>
+
 <?php require __DIR__ . '/partials/header.php'; ?>
 
 
@@ -27,5 +33,7 @@
 </main>
 
 <?php require __DIR__ . '/partials/footer.php'; ?>
+
+<script src="<?= BASE_URL ?>/js/home.js"></script>
 </body>
 </html>

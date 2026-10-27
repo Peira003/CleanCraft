@@ -1,12 +1,63 @@
+/* -----------TŁO-------- */
+
+.bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.35;
+    background: var(--accent);
+    animation: drif 18s ease-in-out infinite alternate;
+}
+
+.blob-1 { width: 420px; height: 420px; top: -120px; left: -100px}
+
+.blob-2 {
+    width: 360px;
+    height: 360px;
+    bottom: -100px;
+    right: -80px;
+    background: #6c8cff;
+    animation-duration: 24s;
+}
+
+@keyframes drift {
+    to { transform: translate(80px, 60px) scale(1.15)}
+}
+
+.bubbles span {
+    position: absolute;
+    bottom: -60px;
+    border-radius: 50%;
+    border: 1px solid rgba(137, 207, 240, 0.35);
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.25), rgba(137, 207, 240, 0.05) 60%);
+    animation: rise linear infinite;
+}
+
+@keyframes rise {
+    to { transform: translateY(-115vh) translateX(30px); opacity: 0; }
+}
+
 .hero-card {
     padding: 40px 30px;
     max-width: 650px;
     text-align: center;
+    transition: transform 0.15s ease-out;
+    transform: perspective(900px);
+    animation: fadeUp 0.8s ease-out backwards;
 }
 
 .hero-card h1 {
     font-size: 32px;
     margin-bottom: 20px;
+    animation: fadeUp 0.8s 0.15s ease-out backwards;;
 }
 
 .hero-card p {
@@ -14,8 +65,30 @@
     line-height: 1.6;
     color: #dddddd;
     margin-bottom: 30px;
+    animation: fadeUp 0.8s 0.3s ease-out backwards;
 }
+
+.hero-card .cta-buttons { animation: fadeUp 0.8s 0.45s ease-out backwards; }
 
 .hero-card p strong {
     color: #89CFF0;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+}
+
+.hero-card .btn-primary {
+    animation: fadeUp 0.8s 0.45s ease-out backwards, pulse 3s 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    50% { box-shadow: 0 0 0 8px var(--accent-soft); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+    }
 }

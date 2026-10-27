@@ -1,6 +1,6 @@
 <?php
-    $badAttempt = !empty($_SESSION['bad_attempt']);
-    unset($_SESSION['bad_attempt']);
+    $error = $_SESSION['form_error'] ?? null;
+    unset($_SESSION['form_error']);
 ?>
 
 <!DOCTYPE html>
@@ -22,11 +22,12 @@
         <div class="form-card">
             <h1>Logowanie</h1>
 
-            <?php if ($badAttempt): ?>
-                <p class="form-error">Nieprawidłowy e-mail lub hasło.</p>
+            <?php if ($error): ?>
+                <p class="form-error"><?= htmlspecialchars($error) ?></p>
             <?php endif; ?>
 
             <form method="post" action="<?= BASE_URL ?>/login">
+                <?= \App\Csrf::field() ?>
                 <label for="email">E-mail</label>
                 <input type="email" id="email" name="email" required>
 

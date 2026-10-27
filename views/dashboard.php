@@ -52,15 +52,45 @@ $inviteLink = $scheme . '://' . $_SERVER['HTTP_HOST'] . BASE_URL . '/dolacz/' . 
                         <?php if($u['role'] === 'owner'): ?>
                             <span class="rola admin">Właściciel</span>
                         <?php endif; ?>
+
+                        <?php if ($isOwner && $u['role'] !== 'owner'): ?>
+                            <form method="post" action="<?= BASE_URL ?>/plan/<?= (int) $plan['id'] ?>/remove/<?= (int) $u['id'] ?>"
+                                  data-confirm="Usunąć <?= htmlspecialchars($u['name'], ENT_QUOTES) ?> z planu?"
+                                  data-confirm-label="Usuń">
+                                <?= \App\Csrf::field() ?>
+                                <button type="submit" class="remove-btn" aria-label="Usuń z planu">&times;</button>
+                            </form>
+                        <?php endif; ?>
                     </li>
                 <?php endforeach; ?>
             </ul>
+
+            <?php if (!$isOwner): ?>
+                <form method="post"
+                      action="<?= BASE_URL ?>/plan/<?= (int) $plan['id'] ?>/leave"
+                      class="leave-form"
+                      data-confirm="Na pewno chcesz opuścić ten plan?"
+                      data-confirm-label="Opuść">
+                    <?= \App\Csrf::field() ?>
+                    <button type="submit" class="leave-btn">Opuść plan</button>
+                </form>
+            <?php endif; ?>
         </section>
     </main>
 
 
     <?php require __DIR__ . '/partials/footer.php'; ?>
 
+    <dialog id="confirmModal" class="modal">
+        <h3>Potwierdź</h3>
+        <p id="modalText"></p>
+        <div class="modal-actions">
+            <button type="button" class="btn-secondary" id="modalCancel">Anuluj</button>
+            <button type="button" class="btn-danger" id="modalConfirm">Potwierdź</button>
+        </div>
+    </dialog>
+
+    <script src="<?= BASE_URL ?>/js/modal.js"></script>
     <script src="<?= BASE_URL ?>/js/kalendarz.js"></script>
 </body>
 </html>

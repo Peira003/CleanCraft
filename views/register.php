@@ -13,7 +13,7 @@
 </head>
 <body>
     <?php
-        $showBackButtonLogin = true;
+        $showBackButton = true;
         require __DIR__ . '/partials/header.php';
     ?>
 
@@ -26,6 +26,7 @@
             <?php endif; ?>
 
             <form method="post" action="<?= BASE_URL ?>/register">
+                <?= \App\Csrf::field() ?>
                 <label for="name">Imię</label>
                 <input type="text" id="name" name="name" maxlength="100" required>
 

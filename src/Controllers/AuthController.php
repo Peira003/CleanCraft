@@ -3,7 +3,9 @@
 namespace App\Controllers;
 
 
+use App\Models\LoginAttempt;
 use App\Models\User;
+use App\Csrf;
 
 class AuthController
 {
@@ -19,29 +21,37 @@ class AuthController
 
     public function login(): void
     {
+        Csrf::verify();
+
+        $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+        $emailKey = mb_substr(strtolower(trim($_POST['email'] ?? '')), 0, 255);
+
+        if (LoginAttempt::isBlocked($ip, $emailKey)) {
+            $_SESSION['form_error'] = 'Zbyt wiele nieudanych prób logowania. Spróbuj ponownie za 15 minut.';
+            header('Location: ' . BASE_URL . '/login');
+            exit();
+        }
+
         $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
         $password = $_POST['password'] ?? '';
+        $user = $email ? User::findByEmail($email) : null;
 
-        if (!$email || $password === '') {
+        if (!$email || $password === '' || !$user || !password_verify($password, $user['password'])) {
+            LoginAttempt::recrod($ip, $emailKey);
             $_SESSION['form_error'] = 'Nieprawidłowy e-mail lub hasło.';
             header('Location: ' . BASE_URL . '/login');
             exit();
         }
 
-        $user = User::findByEmail($email);
-
-        if (!$user || !password_verify($password, $user['password'])) {
-            $_SESSION['form_error'] = 'Nieprawidłowy e-mail lub hasło.';
-            header('Location: ' . BASE_URL . '/login');
-            exit();
-        }
-
+        LoginAttempt::clear($ip, $emailKey);
         $this->startSession($user);
         $this->redirectAfterLogin();
     }
 
     public function register(): void
     {
+        Csrf::verify();
+
         $name = trim($_POST['name'] ?? '');
         $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
         $password = $_POST['password'] ?? '';
@@ -73,6 +83,8 @@ class AuthController
 
     public function logout(): void
     {
+        Csrf::verify();
+
         $_SESSION = [];
 
         if (ini_get('session.use_cookies')) {

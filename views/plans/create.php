@@ -23,6 +23,7 @@ unset($_SESSION['form_error']);
             <?php endif; ?>
 
             <form method="post" action="<?= BASE_URL ?>/plans/create">
+                <?= \App\Csrf::field() ?>
                 <label for="name">Nazwa planu</label>
                 <input type="text" id="name" name="name" maxlength="120" placeholder="np. Mieszkanie na Kwiatowej" required>
                 <input type="submit" value="Utwórz">

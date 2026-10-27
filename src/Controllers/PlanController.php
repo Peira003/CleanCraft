@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Plan;
+use App\Csrf;
 
 class PlanController
 {
@@ -37,6 +38,8 @@ class PlanController
 
     public function create(): void
     {
+        Csrf::verify();
+
         $userId = $this->requireLogin();
         $name = trim($_POST['name'] ?? '');
 
@@ -57,6 +60,8 @@ class PlanController
 
     public function join(): void
     {
+        Csrf::verify();
+
         $userId = $this->requireLogin();
         $this->joinWithCode($userId, $_POST['code'] ?? '');
     }
@@ -98,6 +103,31 @@ class PlanController
         $isOwner = Plan::isOwner($planId, $userId);
 
         require __DIR__ . '/../../views/dashboard.php';
+    }
+
+    public function removeMember(string $id, string $memberId): void
+    {
+        $userId = $this->requireLogin();
+        Csrf::verify();
+        $planId = (int) $id;
+        $targetId = (int) $memberId;
+
+        if (!Plan::isOwner($planId, $userId) || $targetId === $userId) {
+            http_response_code(403);
+            exit('Brak uprawnień');
+        }
+
+        Plan::removeMember($planId, $targetId);
+        $this->redirect('/plan/' . $planId);
+    }
+
+    public function leavePlan(string $id): void
+    {
+        $userId = $this->requireLogin();
+        Csrf::verify();
+
+        Plan::removeMember((int) $id, $userId);
+        $this->redirect('/plans');
     }
 
 }

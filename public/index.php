@@ -1,5 +1,11 @@
 <?php
 
+session_set_cookie_params([
+    'httponly' => true,
+    'secure' => !empty($_SERVER['HTTPS']),
+    'samesite' => 'Lax',
+]);
+ini_set('session.use_strict_mode', '1');
 session_start();
 
 require_once __DIR__.'/../vendor/autoload.php';
@@ -30,6 +36,9 @@ $router->get('/plans/join', [PlanController::class, 'showJoin']);
 $router->post('/plans/join', [PlanController::class, 'join']);
 $router->get('/dolacz/{kod}', [PlanController::class, 'joinByLink']);
 $router->get('/plan/{id}', [PlanController::class, 'show']);
+
+$router->post('/plan/{id}/remove/{memberId}', [PlanController::class, 'removeMember']);
+$router->post('/plan/{id}/leave', [PlanController::class, 'leavePlan']);
 
 
 //$router->get('/dashboard', [AuthController::class, 'showDashboard']);

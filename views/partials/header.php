@@ -1,6 +1,6 @@
 <?php
 /**
- * @var bool|null $showBackButton
+ * @var bool|null $showBackButtonLogin
  */
 $showBackButtonLogin = $showBackButtonLogin ?? false;
 ?>
@@ -21,6 +21,7 @@ $showBackButtonLogin = $showBackButtonLogin ?? false;
         <a href="<?= BASE_URL ?>/" class="back-btn">Wróć</a>
     <?php elseif (!empty($_SESSION['userId'])) : ?>
         <form method="post" action="<?= BASE_URL ?>/logout">
+            <?= \App\Csrf::field() ?>
             <button type="submit" class="login-btn btn-reset">Wyloguj</button>
         </form>
     <?php else : ?>

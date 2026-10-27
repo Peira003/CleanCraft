@@ -122,6 +122,7 @@ main.dashboardLayout {
     gap: 14px;
     padding: 10px 14px;
     transition: all 0.25s;
+    margin-bottom: 5px;
 }
 
 .uzytkownik:hover {
@@ -161,6 +162,47 @@ main.dashboardLayout {
     background: var(--accent);
     color: #0f1419;
     font-weight: bold;
+}
+
+.remove-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 8px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.remove-btn:hover {
+    border-color: #ff5050;
+    color: #ff8f8f;
+}
+
+.leave-form {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+}
+
+.leave-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: var(--radius-sm);
+    padding: 10px 20px;
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.leave-btn:hover {
+    border-color: #e5484d;
+    color: #ff8f8f;
+    background: rgba(229, 72, 77, 0.08);
 }
 
 .brak-danych { text-align: center; color: var(--muted); }

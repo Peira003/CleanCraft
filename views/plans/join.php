@@ -1,4 +1,7 @@
 <?php
+
+use App\Csrf;
+
 $error = $_SESSION['form_error'] ?? null;
 unset($_SESSION['form_error']);
 ?>
@@ -23,6 +26,7 @@ unset($_SESSION['form_error']);
             <?php endif; ?>
 
             <form method="post" action="<?= BASE_URL ?>/plans/join">
+                <?= Csrf::field() ?>
                 <label for="code">Kod zaproszenia</label>
                 <input type="text" id="code" name="code" maxlength="120" placeholder="np. K7P3QX" autocomplete="off" required>
                 <input type="submit" value="Dołącz">
