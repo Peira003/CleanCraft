@@ -20,9 +20,20 @@ class Csrf
     public static function verify(): void
     {
         $sent = $_POST["csrf"] ?? '';
+
         if (!hash_equals($_SESSION['csrf'] ?? '', $sent)) {
-            http_response_code(403);
-            exit('Nieprawidłowy token formularza. Odśwież stronę i spróbuj ponownie.');
+            self::fail();
         }
     }
+
+    public static function fail(): never
+    {
+        http_response_code(403);
+        $code = 403;
+        $title = 'Formularz wygasł';
+        $message = 'Nieprawidłowy token formularza. Odśwież stronę i próbuj ponownie.';
+        require __DIR__ . '/../views/error.php';
+        exit;
+    }
+
 }
