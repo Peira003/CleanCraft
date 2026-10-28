@@ -1,0 +1,1 @@
+ALTER TABLE plan_members ADD COLUMN color CHAR(7) NOT NULL DEFAULT '#89CFF0' AFTER role;

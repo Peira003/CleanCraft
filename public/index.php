@@ -40,6 +40,8 @@ $router->get('/plan/{id}', [PlanController::class, 'show']);
 $router->post('/plan/{id}/remove/{memberId}', [PlanController::class, 'removeMember']);
 $router->post('/plan/{id}/leave', [PlanController::class, 'leavePlan']);
 
+$router->post('/plan/{id}/schedule', [PlanController::class, 'setWeek']);
+
 
 //$router->get('/dashboard', [AuthController::class, 'showDashboard']);
 

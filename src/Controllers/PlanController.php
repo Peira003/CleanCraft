@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Plan;
 use App\Csrf;
+use App\Models\Schedule;
 
 class PlanController
 {
@@ -102,6 +103,8 @@ class PlanController
         $users = $members;
         $isOwner = Plan::isOwner($planId, $userId);
 
+        $schedule = Schedule::forPlan($planId);
+
         require __DIR__ . '/../../views/dashboard.php';
     }
 
@@ -128,6 +131,45 @@ class PlanController
 
         Plan::removeMember((int) $id, $userId);
         $this->redirect('/plans');
+    }
+
+    public function setWeek(string $id): void
+    {
+        $userId = $this->requireLogin();
+        Csrf::verify();
+        $planId = (int) $id;
+
+        if (!Plan::isOwner($planId, $userId)) {
+            $this->json(['ok' => false], 403);
+        }
+
+        $week = $_POST['week'] ?? '';
+        $target = (int) ($_POST['user_id'] ?? 0);
+
+        $date = \DateTime::createFromFormat('Y-m-d', $week);
+        if (!$date || $date->format('Y-m-d') !== $week || $date->format('N') !== '1') {
+            $this->json(['ok' => false], 422);
+        }
+
+        if ($target === 0) {
+            Schedule::clear($planId,$week);
+        } else {
+            $memberIds = array_column(Plan::members($planId), 'id');
+            if (!in_array($target, array_map('intval', $memberIds), true)) {
+                $this->json(['ok' => false], 422);
+            }
+            Schedule::set($planId, $week, $target);
+        }
+
+        $this->json(['ok' => true]);
+    }
+
+    public function json(array $data, int $status = 200): never
+    {
+        http_response_code($status);
+        header('Content-Type: application/json');
+        echo json_encode($data);
+        exit;
     }
 
 }

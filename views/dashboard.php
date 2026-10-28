@@ -42,10 +42,12 @@ $inviteLink = $scheme . '://' . $_SERVER['HTTP_HOST'] . BASE_URL . '/dolacz/' . 
                 </div>
             <?php endif; ?>
 
-            <ul class="lsita">
+            <ul class="lista">
                 <?php foreach ($users as $u): ?>
                     <li class="uzytkownik">
-                        <div class="awatar"><?= htmlspecialchars(mb_strtoupper(mb_substr($u['name'], 0, 1))) ?></div>
+                        <div class="awatar" style="background: <?= htmlspecialchars($u['color']) ?>; color: #0f1419">
+                            <?= htmlspecialchars(mb_strtoupper(mb_substr($u['name'], 0, 1))) ?>
+                        </div>
                         <div class="dane">
                             <div class="imie"><?= htmlspecialchars($u['name'])?></div>
                         </div>
@@ -90,6 +92,29 @@ $inviteLink = $scheme . '://' . $_SERVER['HTTP_HOST'] . BASE_URL . '/dolacz/' . 
         </div>
     </dialog>
 
+    <?php if ($isOwner): ?>
+        <dialog id="weekModal" class="modal">
+            <h3>Kto sprząta</h3>
+            <p id="weekLabel"></p>
+            <div class="picker" id="picker"></div>
+            <p class="picker-error" id="weekError" hidden>Nie udało się zapisać. Odśwież stronę i spróbuj ponownie.</p>
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" id="weekCancel">Anuluj</button>
+            </div>
+        </dialog>
+    <?php endif; ?>
+
+    <script>
+        window.PLAN = <?= json_encode([
+                'isOwner' => $isOwner,
+                'csrf' => \App\Csrf::token(),
+            'url' => BASE_URL . '/plan/' . (int) $plan['id'] . '/schedule',
+            'members' => array_map(fn($m) => [
+                    'id' => (int) $m['id'], 'name' => $m['name'], 'color' => $m['color'],
+            ], $users),
+            'schedule' => (object) $schedule,
+        ], JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) ?>;
+    </script>
     <script src="<?= BASE_URL ?>/js/modal.js"></script>
     <script src="<?= BASE_URL ?>/js/kalendarz.js"></script>
 </body>

@@ -5,5 +5,8 @@
     <file url="file://$PROJECT_DIR$/migrations/002_create_plans.sql" value="3d0f0db3-0e68-4ca5-8184-82ed1160b88b" />
     <file url="file://$PROJECT_DIR$/migrations/003_create_plan_members.sql" value="3d0f0db3-0e68-4ca5-8184-82ed1160b88b" />
     <file url="file://$PROJECT_DIR$/migrations/004_create_login_attempts.sql" value="3d0f0db3-0e68-4ca5-8184-82ed1160b88b" />
+    <file url="file://$PROJECT_DIR$/migrations/005_add_color_to_plan_members.sql" value="3d0f0db3-0e68-4ca5-8184-82ed1160b88b" />
+    <file url="file://$PROJECT_DIR$/migrations/006_backfill_member_colors.sql" value="3d0f0db3-0e68-4ca5-8184-82ed1160b88b" />
+    <file url="file://$PROJECT_DIR$/migrations/007_create_week_assignments.sql" value="3d0f0db3-0e68-4ca5-8184-82ed1160b88b" />
   </component>
 </project>

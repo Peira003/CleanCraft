@@ -10,11 +10,11 @@ for (let i=0; i < 16; i++) {
 }
 
 const card = document.querySelector('.hero-card');
-if (card ** window.matchMedia('(hover: hover)').matches) {
+if (card && window.matchMedia('(hover: hover)').matches) {
     card.addEventListener('mousemove', e => {
         const r = card.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width - 0.5;
-        const y = (e.clientY - r.top) / r.height - 0.5;
+        const x = (e.clientX - r.left) / r.width - 0.2;
+        const y = (e.clientY - r.top) / r.height - 0.2;
         card.style.transform =
             `perspective(900px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg) translateZ(0)`;
     });

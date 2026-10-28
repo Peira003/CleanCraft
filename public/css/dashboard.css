@@ -22,10 +22,30 @@ main.dashboardLayout {
 
 /* ---------- KALENDARZ ---------- */
 .siatka {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.nazwy-dni {
     display: grid;
     grid-template-columns: repeat(7, minmax(0, 1fr));
     gap: 8px;
+    padding: 0 8px;
 }
+
+.tydzien {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 8px;
+    padding: 6px;
+    border: 2px solid transparent;
+    border-radius: var(--radius);
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.tydzien.edytowalny { cursor: pointer; }
+.tydzien.edytowalny:hover { background-color: var(--accent-soft); }
 
 .nazwa-dnia {
     font-size: 12px;
@@ -103,6 +123,43 @@ main.dashboardLayout {
 .strzalka:hover {
     border-color: var(--accent);
     background: var(--accent-soft);
+}
+
+/* okno wyboru dyżurnego */
+.picker {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.picker-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font: inherit;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.picker-btn:hover { border-color: var(--accent); }
+
+.swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.picker-error {
+    color: #ff8f8f;
+    font-size: 14px;
+    margin-bottom: 12px;
 }
 
 /* ---------- LISTA UŻYTKOWNIKÓW ---------- */

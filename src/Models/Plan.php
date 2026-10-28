@@ -9,6 +9,7 @@ use PDOException;
 class Plan
 {
     private const CHARS = 'ABCDEFGHIJKMNPQRSTUVWXYZ23456789';
+    private const PALETTE = ['#89CFF0', '#90E0A0', '#F28BB4', '#C3A6FF', '#F6D860', '#6EDCD0', '#FF8A80'];
 
     private static function generateCode(PDO $pdo, int $length = 6): string
     {
@@ -31,10 +32,10 @@ class Plan
         try {
             $stmt = $pdo->prepare("INSERT INTO plans (name, invite_code) VALUES (:name, :code)");
             $stmt->execute(['name' => $name, 'code' => self::generateCode($pdo)]);
-            $planId = (int) $pdo->lastInsertId();
+            $planId = (int)$pdo->lastInsertId();
 
-            $stmt = $pdo->prepare("INSERT INTO plan_members (plan_id, user_id, role) VALUES (:plan, :user, 'owner')");
-            $stmt->execute(['plan' => $planId, 'user' => $userId]);
+            $stmt = $pdo->prepare("INSERT INTO plan_members (plan_id, user_id, role, color) VALUES (:plan, :user, 'owner', :color)");
+            $stmt->execute(['plan' => $planId, 'user' => $userId, 'color' => self::PALETTE[0]]);
             $pdo->commit();
             return $planId;
         } catch (\Throwable $e) {
@@ -64,8 +65,8 @@ class Plan
     public static function addMember(int $planId, int $userId): void
     {
         $pdo = Database::getConnection();
-        $stmt = $pdo->prepare("INSERT INTO plan_members (plan_id, user_id) VALUES (:plan, :user)");
-        $stmt->execute(['plan' => $planId, 'user' => $userId]);
+        $stmt = $pdo->prepare("INSERT INTO plan_members (plan_id, user_id, color) VALUES (:plan, :user, :color)");
+        $stmt->execute(['plan' => $planId, 'user' => $userId, 'color' => self::nextColor($pdo, $planId)]);
     }
 
     public static function forUser(int $userId): array
@@ -83,13 +84,13 @@ class Plan
         $stmt = $pdo->prepare("SELECT 1 FROM plan_members WHERE plan_id = :plan AND user_id = :user AND role = 'owner'");
         $stmt->execute(['plan' => $planId, 'user' => $userId]);
 
-        return (bool) $stmt->fetch();
+        return (bool)$stmt->fetch();
     }
 
     public static function members(int $planId): array
     {
         $pdo = Database::getConnection();
-        $stmt = $pdo->prepare("SELECT u.id, u.name, pm.role
+        $stmt = $pdo->prepare("SELECT u.id, u.name, pm.role, pm.color
                                      FROM plan_members pm
                                      JOIN users u ON u.id = pm.user_id
                                      WHERE pm.plan_id = :plan
@@ -102,7 +103,34 @@ class Plan
     public static function removeMember(int $planId, int $userId): void
     {
         $pdo = Database::getConnection();
-        $stmt = $pdo->prepare("DELETE FROM plan_members WHERE plan_id = :plan AND user_id = :user AND role != 'owner'");
-        $stmt->execute(['plan' => $planId, 'user' => $userId]);
+        $pdo->beginTransaction();
+        try {
+            $stmt = $pdo->prepare("DELETE FROM plan_members WHERE plan_id = :plan AND user_id = :user AND role != 'owner'");
+            $stmt->execute(['plan' => $planId, 'user' => $userId]);
+
+            if ($stmt->rowCount() > 0) {
+                $pdo->prepare("DELETE FROM week_assignments WHERE plan_id = :plan AND user_id = :user")
+                    ->execute(['plan' => $planId, 'user' => $userId]);
+            }
+
+            $pdo->commit();
+        } catch (\Throwable $e) {
+            $pdo->rollBack();
+            throw $e;
+        }
+    }
+
+    private static function nextColor(PDO $pdo, int $planId): string
+    {
+        $stmt = $pdo->prepare("SELECT color FROM plan_members WHERE plan_id = :plan");
+        $stmt->execute(['plan' => $planId]);
+        $used = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        foreach (self::PALETTE as $color) {
+            if (!in_array($color, $used, true)) {
+                return $color;
+            }
+        }
+        return self::PALETTE[count($used) % count(self::PALETTE)];
     }
 }
