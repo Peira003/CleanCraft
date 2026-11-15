@@ -26,7 +26,7 @@ class LoginAttempt
             || (int) $row['ip_total'] >= self::MAX_PER_IP;
     }
 
-    public static function recrod(string $ip, string $email): void
+    public static function record(string $ip, string $email): void
     {
         $pdo = Database::getConnection();
 

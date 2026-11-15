@@ -28,16 +28,16 @@
             <form method="post" action="<?= BASE_URL ?>/register">
                 <?= \App\Csrf::field() ?>
                 <label for="name">Imię</label>
-                <input type="text" id="name" name="name" maxlength="100" required>
+                <input type="text" id="name" name="name" maxlength="30" required>
 
                 <label for="email">E-mail</label>
                 <input type="email" id="email" name="email" required>
 
                 <label for="password">Hasło (min. 8 znaków)</label>
-                <input type="password" id="password" name="password" maxlength="8" required>
+                <input type="password" id="password" name="password" minlength="8" maxlength="72" required>
 
                 <label for="password_confirm">Powtórz hasło</label>
-                <input type="password" id="password_confirm" name="password_confirm" required>
+                <input type="password" id="password_confirm" name="password_confirm" minlength="8" maxlength="72" required>
 
                 <input type="submit" value="Zarejestruj się">
             </form>
