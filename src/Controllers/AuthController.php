@@ -25,7 +25,7 @@ class AuthController
         $ip = $_SERVER['REMOTE_ADDR'] ?? '';
         $emailKey = mb_substr(strtolower(trim($_POST['email'] ?? '')), 0, 255);
 
-        if (LoginAttempt::isBlocked($ip, $emailKey)) {
+        if (LoginAttempt::isBlocked('login', $ip, $emailKey)) {
             $_SESSION['form_error'] = 'Zbyt wiele nieudanych prób logowania. Spróbuj ponownie za 15 minut.';
             header('Location: ' . BASE_URL . '/login');
             exit();
@@ -40,19 +40,29 @@ class AuthController
         $user = $email ? User::findByEmail($email) : null;
 
         if (!$email || $password === '' || !$user || !password_verify($password, $user['password'])) {
-            LoginAttempt::record($ip, $emailKey);
+            LoginAttempt::record('login', $ip, $emailKey);
             $_SESSION['form_error'] = 'Nieprawidłowy e-mail lub hasło.';
             header('Location: ' . BASE_URL . '/login');
             exit();
         }
 
-        LoginAttempt::clear($ip, $emailKey);
+        LoginAttempt::clear('login', $ip, $emailKey);
         $this->startSession($user);
         $this->redirectAfterLogin();
     }
 
     public function register(): void
     {
+        $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+
+        if (LoginAttempt::isBlocked('register', $ip)) {
+            $_SESSION['form_error'] = 'Zbyt wiele prób rejestracji. Spróbuj ponownie za godzinę.';
+            header('Location: ' . BASE_URL . '/register');
+            exit();
+        }
+
+        LoginAttempt::record('register', $ip);
+
         $name = trim($_POST['name'] ?? '');
         $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
         $email = $email ? mb_strtolower($email) : false;

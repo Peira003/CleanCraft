@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\ErrorPage;
+use App\Models\LoginAttempt;
 use App\Models\Plan;
 use App\Csrf;
 use App\Models\Schedule;
@@ -105,9 +106,17 @@ class PlanController
 
     private function joinWithCode(int $userId, string $code): never
     {
+        $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+
+        if (LoginAttempt::isBlocked('join', $ip)) {
+            $_SESSION['form_error'] = 'Zbyt wiele błędnych kodów. Spróbuj ponownie za 15 minut.';
+            $this->redirect('/plans/join');
+        }
+
         $plan = Plan::findByCode($code);
 
         if (!$plan) {
+            LoginAttempt::record('join', $ip);
             $_SESSION['form_error'] = 'Nie znaleziono planu o takim kodzie';
             $this->redirect('/plans/join');
         }
