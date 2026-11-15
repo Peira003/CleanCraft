@@ -44,8 +44,4 @@ $router->post('/plan/{id}/leave', [PlanController::class, 'leavePlan']);
 
 $router->post('/plan/{id}/schedule', [PlanController::class, 'setWeek']);
 
-
-//$router->get('/dashboard', [AuthController::class, 'showDashboard']);
-
-
 $router->dispatch();
