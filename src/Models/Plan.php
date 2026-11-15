@@ -133,4 +133,24 @@ class Plan
         }
         return self::PALETTE[count($used) % count(self::PALETTE)];
     }
+
+    public static function regenerateCode(int $planId): string
+    {
+        $pdo = Database::getConnection();
+        $code = self::generateCode($pdo);
+
+        $pdo->prepare("UPDATE plans SET invite_code = :code WHERE id = :id")
+            ->execute(['code' => $code, 'id' => $planId]);
+
+        return $code;
+    }
+
+    public static function isMember(int $planId, int $userId): bool
+    {
+        $pdo = Database::getConnection();
+        $stmt = $pdo->prepare("SELECT 1 FROM plan_members WHERE plan_id = :plan AND user_id = :user");
+        $stmt->execute(['plan' => $planId, 'user' => $userId]);
+
+        return (bool) $stmt->fetch();
+    }
 }

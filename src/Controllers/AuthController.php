@@ -21,7 +21,6 @@ class AuthController
 
     public function login(): void
     {
-        Csrf::verify();
 
         $ip = $_SERVER['REMOTE_ADDR'] ?? '';
         $emailKey = mb_substr(strtolower(trim($_POST['email'] ?? '')), 0, 255);
@@ -50,8 +49,6 @@ class AuthController
 
     public function register(): void
     {
-        Csrf::verify();
-
         $name = trim($_POST['name'] ?? '');
         $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
         $password = $_POST['password'] ?? '';
@@ -83,8 +80,6 @@ class AuthController
 
     public function logout(): void
     {
-        Csrf::verify();
-
         $_SESSION = [];
 
         if (ini_get('session.use_cookies')) {

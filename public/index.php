@@ -35,6 +35,8 @@ $router->post('/plans/create', [PlanController::class, 'create']);
 $router->get('/plans/join', [PlanController::class, 'showJoin']);
 $router->post('/plans/join', [PlanController::class, 'join']);
 $router->get('/dolacz/{kod}', [PlanController::class, 'joinByLink']);
+$router->post('/dolacz/{kod}', [PlanController::class, 'confirmJoin']);
+$router->post('/plan/{id}/code', [PlanController::class, 'regenerateCode']);
 $router->get('/plan/{id}', [PlanController::class, 'show']);
 
 $router->post('/plan/{id}/remove/{memberId}', [PlanController::class, 'removeMember']);

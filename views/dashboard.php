@@ -37,8 +37,18 @@ $inviteLink = $scheme . '://' . $_SERVER['HTTP_HOST'] . BASE_URL . '/dolacz/' . 
 
             <?php if ($isOwner): ?>
                 <div class="invite">
-                    <p>Kod zaproszenia: <strong><?= htmlspecialchars($plan['invite_code']) ?></strong></p>
-                    <p>Link: <?= htmlspecialchars($inviteLink) ?></p>
+                    <div class="invite-info">
+                        <p>Kod zaproszenia: <strong><?= htmlspecialchars($plan['invite_code']) ?></strong></p>
+                        <p>Link: <?= htmlspecialchars($inviteLink) ?></p>
+                    </div>
+
+
+                    <form method="post" action="<?= BASE_URL ?>/plan/<?= (int) $plan['id'] ?>/code"
+                          data-confirm="Wygenerować nowy kod? Stary kod i link przestaną działać."
+                          data-confirm-label="Wygeneruj">
+                        <?= \App\Csrf::field() ?>
+                        <button type="submit" class="btn-secondary btn-small">Wygeneruj nowy kod</button>
+                    </form>
                 </div>
             <?php endif; ?>
 

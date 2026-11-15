@@ -2,6 +2,8 @@
 
 namespace App;
 
+
+
 class Csrf
 {
     public static function token(): string
@@ -19,21 +21,17 @@ class Csrf
 
     public static function verify(): void
     {
+        $expected = $_SESSION['csrf'] ?? '';
         $sent = $_POST["csrf"] ?? '';
 
-        if (!hash_equals($_SESSION['csrf'] ?? '', $sent)) {
+        if ($expected === '' || !is_string($sent) || !hash_equals($expected, $sent)) {
             self::fail();
         }
     }
 
     public static function fail(): never
     {
-        http_response_code(403);
-        $code = 403;
-        $title = 'Formularz wygasł';
-        $message = 'Nieprawidłowy token formularza. Odśwież stronę i próbuj ponownie.';
-        require __DIR__ . '/../views/error.php';
-        exit;
+        ErrorPage::show(403, 'Formularz wygasł', 'Nieprawidłowy token formularza. Odśwież stronę i spróbuj ponownie.');
     }
 
 }

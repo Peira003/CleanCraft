@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\ErrorPage;
 use App\Models\Plan;
 use App\Csrf;
 use App\Models\Schedule;
@@ -39,8 +40,6 @@ class PlanController
 
     public function create(): void
     {
-        Csrf::verify();
-
         $userId = $this->requireLogin();
         $name = trim($_POST['name'] ?? '');
 
@@ -61,8 +60,6 @@ class PlanController
 
     public function join(): void
     {
-        Csrf::verify();
-
         $userId = $this->requireLogin();
         $this->joinWithCode($userId, $_POST['code'] ?? '');
     }
@@ -73,7 +70,37 @@ class PlanController
             $_SESSION['pending_join_code'] = $code;
             $this->redirect('/login');
         }
-        $this->joinWithCode((int) $_SESSION['userId'], $code);
+
+        $plan = Plan::findByCode($code);
+        if (!$plan) {
+            ErrorPage::show(404, 'Nieprawidłowy link', 'Ten kod zaproszenia nie istnieje albo został unieważniony.');
+        }
+
+        if (Plan::isMember((int) $plan['id'], (int) $_SESSION['userId'])) {
+            $this->redirect('/plan/' . $plan['id']);
+        }
+
+        $inviteCode = strtoupper(trim($code));
+        require __DIR__ . '/../../views/plans/confirm_join.php';
+    }
+
+    public function confirmJoin(string $code): void
+    {
+        $userId = $this->requireLogin();
+        $this->joinWithCode($userId, $code);
+    }
+
+    public function regenerateCode(string $id): void
+    {
+        $userId = $this->requireLogin();
+        $planId = (int) $id;
+
+        if (!Plan::isOwner($planId, $userId)) {
+            ErrorPage::show(403, 'Brak uprawnień', 'Tylko właściciel może zmienić kod zaproszenia.');
+        }
+
+        Plan::regenerateCode($planId);
+        $this->redirect('/plan/' . $planId);
     }
 
     private function joinWithCode(int $userId, string $code): never
@@ -94,15 +121,15 @@ class PlanController
         $userId = $this->requireLogin();
         $planId = (int) $id;
 
+        $plan = Plan::findById($planId);
         $members = Plan::members($planId);
-        if(!in_array($userId, array_column($members, 'id'), true)){
-            $this->redirect('/plans');
+
+        if(!$plan || !in_array($userId, array_column($members, 'id'), true)) {
+            ErrorPage::show(404, 'Nie znaleziono planu','Ten plan nie istnieje albo nie masz do niego dostępu.');
         }
 
-        $plan = Plan::findById($planId);
         $users = $members;
         $isOwner = Plan::isOwner($planId, $userId);
-
         $schedule = Schedule::forPlan($planId);
 
         require __DIR__ . '/../../views/dashboard.php';
@@ -111,13 +138,11 @@ class PlanController
     public function removeMember(string $id, string $memberId): void
     {
         $userId = $this->requireLogin();
-        Csrf::verify();
         $planId = (int) $id;
         $targetId = (int) $memberId;
 
         if (!Plan::isOwner($planId, $userId) || $targetId === $userId) {
-            http_response_code(403);
-            exit('Brak uprawnień');
+            ErrorPage::show(403, 'Brak uprawnień', 'Nie posiadasz uprawnień do tej akcji.');
         }
 
         Plan::removeMember($planId, $targetId);
@@ -127,8 +152,6 @@ class PlanController
     public function leavePlan(string $id): void
     {
         $userId = $this->requireLogin();
-        Csrf::verify();
-
         Plan::removeMember((int) $id, $userId);
         $this->redirect('/plans');
     }
@@ -136,7 +159,6 @@ class PlanController
     public function setWeek(string $id): void
     {
         $userId = $this->requireLogin();
-        Csrf::verify();
         $planId = (int) $id;
 
         if (!Plan::isOwner($planId, $userId)) {

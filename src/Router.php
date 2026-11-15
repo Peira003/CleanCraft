@@ -21,10 +21,9 @@ class Router
         $method = $_SERVER['REQUEST_METHOD'];
         $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-        $basePath = BASE_URL;
 
-        if (!empty($basePath) && str_starts_with($path, $basePath)) {
-            $path = substr($path, strlen($basePath));
+        if (!empty(BASE_URL) && str_starts_with($path, BASE_URL)) {
+            $path = substr($path, strlen(BASE_URL));
         }
 
         $path = rtrim($path ?: '/', '/') ?: '/';
@@ -36,13 +35,21 @@ class Router
             if (preg_match($pattern, $path, $matches)) {
                 $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
 
+                if ($method === 'POST') {
+                    Csrf::verify();
+                }
+
                 [$controllerClass, $action] = $handler;
-                (new $controllerClass())->$action(...array_values($params));
+                try {
+                    (new $controllerClass())->$action(...array_values($params));
+                } catch (\Exception $e) {
+                    error_log($e);
+                    ErrorPage::show(500, 'Coś poszło nie tak', 'Spróbuj ponownie za chwilę.');
+                }
                 return;
             }
         }
 
-        http_response_code(404);
-        echo "404 - Strona nie została znaleziona";
+        ErrorPage::show(404, 'Nie znaleziono strony', 'Taka strona nie istnieje albo została przeniesiona');
     }
 }
